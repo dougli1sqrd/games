@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.brainstorm</groupId>
+    <artifactId>tictactoe</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Tic Tac Toe</name>
+    <version>1.0</version>
+    <description>
+        A simple implementation of the classic Tic Tac Toe game.
+    </description>
+
+    <developers>
+        <developer>
+            <id>shakedown</id>
+            <name>Nate Wolfe</name>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>dougli1sqrd</id>
+            <name>Eric Douglass</name>
+            <roles>
+                <role>Java Developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <!-- TODO -->
+    <!--<licenses>-->
+        <!--<license>-->
+            <!--<name></name>-->
+            <!--<url></url>-->
+            <!--<distribution></distribution>-->
+        <!--</license>-->
+    <!--</licenses>-->
+
+    <dependencyManagement>
+
+    </dependencyManagement>
+</project>
