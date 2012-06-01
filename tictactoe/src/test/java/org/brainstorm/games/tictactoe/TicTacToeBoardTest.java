@@ -32,7 +32,7 @@ public class TicTacToeBoardTest {
     @Test
     public void getSpaceValueTest() {
 
-        char value = board.getValueAt(1, 1);
+        Type value = board.getTypeAt(1, 1);
     }
 
     @Test
@@ -46,9 +46,9 @@ public class TicTacToeBoardTest {
 
         board.placeX(0, 0);
 
-        char value = board.getValueAt(0, 0);
+        Type value = board.getTypeAt(0, 0);
 
-        assertEquals('X', value);
+        assertEquals(Type.X, value);
     }
 
     @Test
@@ -56,18 +56,18 @@ public class TicTacToeBoardTest {
 
         board.placeO(0, 0);
 
-        char value = board.getValueAt(0, 0);
+        Type value = board.getTypeAt(0, 0);
 
-        assertEquals('O', value);
+        assertEquals(Type.O, value);
     }
 
     @Test
     public void verifyBlankSpaceTest()  {
 
         //start with a new board
-        char value = board.getValueAt(1, 1);
+        Type value = board.getTypeAt(1, 1);
 
-        assertEquals(' ', value);
+        assertEquals(Type.BLANK, value);
     }
 
     @Test
@@ -84,8 +84,8 @@ public class TicTacToeBoardTest {
         assertEquals(9, blanks.size());
         for(int[] space : blanks)  {
 
-            char spacevalue = board.getValueAt(space[0], space[1]);
-            assertEquals(' ', spacevalue);
+            Type spacevalue = board.getTypeAt(space[0], space[1]);
+            assertEquals(Type.BLANK, spacevalue);
         }
     }
 
@@ -99,8 +99,8 @@ public class TicTacToeBoardTest {
         assertEquals(8, blanks.size());
         for(int[] space : blanks)  {
 
-            char spacevalue = board.getValueAt(space[0], space[1]);
-            assertEquals(' ', spacevalue);
+            Type spacevalue = board.getTypeAt(space[0], space[1]);
+            assertEquals(Type.BLANK, spacevalue);
         }
     }
 
@@ -255,6 +255,6 @@ public class TicTacToeBoardTest {
         board.placeX(0, 1);
         board.placeX(0, 2);
 
-        assertEquals(TicTacToeBoard.X, board.getWinningType());
+        assertEquals(Type.X, board.getWinningType());
     }
 }

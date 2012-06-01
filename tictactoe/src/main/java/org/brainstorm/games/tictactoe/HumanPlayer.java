@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class HumanPlayer extends Player {
 
-    public HumanPlayer(char type, TicTacToeBoard board) {
+    public HumanPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 

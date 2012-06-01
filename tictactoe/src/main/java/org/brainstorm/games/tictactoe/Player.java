@@ -9,45 +9,38 @@ package org.brainstorm.games.tictactoe;
 public abstract class Player {
 
     // TODO: Don't use typed classes, use polymorphism instead!
-    private char playertype;
+    private final Type type;
 
-    private TicTacToeBoard gameboard;
+    private final TicTacToeBoard board;
 
-    public Player(char type, TicTacToeBoard board)  {
-
-        playertype = type;
-        gameboard = board;
+    public Player(Type type, TicTacToeBoard board) {
+        this.type = type;
+        this.board = board;
     }
 
     protected TicTacToeBoard getGameBoard() {
-
-        return gameboard;
+        return board;
     }
 
-    protected char getPlayerType()  {
-
-        return playertype;
+    protected Type getType()  {
+        return type;
     }
 
     public final void makeMove()  {
         //TODO where do we enforce legal move placement?  If we enforce here, then if an illegal move is made
         //it will fail silently, doing nothing.  It could also be placed in a loop, that does not exit until
         //a legal move is made.  (A legal move is one in which there are no other placements (a blank space))
-
-        int[] tile = getMove();
-        if(playertype == TicTacToeBoard.X)  {
-
-            gameboard.placeX(tile[0], tile[1]);
-        } else if(playertype == TicTacToeBoard.O)   {
-
-            gameboard.placeO(tile[0], tile[1]);
+        int[] tile = getMove(); // TODO Can we move this inside the if block?
+        if (Type.X == type || Type.O == type) {
+            board.placeType(type, tile[0], tile[1]);
         }
-
     }
 
     /**
      * This method returns the coordinate pair (col, row) that this player wants to go in.  This will be called using
      * the makeMove() method.
+     *
+     * @return Coordinate pair (col, row) of desired move (placement).
      */
     protected abstract int[] getMove();
 }

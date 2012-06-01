@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class RandomAiPlayer extends AiPlayer {
 
-    public RandomAiPlayer(char type, TicTacToeBoard board) {
+    public RandomAiPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 

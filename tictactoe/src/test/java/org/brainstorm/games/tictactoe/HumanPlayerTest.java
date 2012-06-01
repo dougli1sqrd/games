@@ -18,7 +18,7 @@ public class HumanPlayerTest {
     public void setup() {
 
         board = new TicTacToeBoard();
-        human = new HumanPlayer(TicTacToeBoard.X, board);
+        human = new HumanPlayer(Type.X, board);
     }
 
 }

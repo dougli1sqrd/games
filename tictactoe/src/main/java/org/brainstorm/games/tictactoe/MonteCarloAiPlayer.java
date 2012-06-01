@@ -10,7 +10,7 @@ public class MonteCarloAiPlayer extends AiPlayer    {
 
     private static final int DEPTH = 1;
 
-    public MonteCarloAiPlayer(char type, TicTacToeBoard board) {
+    public MonteCarloAiPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 
@@ -28,9 +28,9 @@ public class MonteCarloAiPlayer extends AiPlayer    {
         for(int[] space : getGameBoard().listBlankSpaces()) {
 
             TicTacToeBoard boardcopy = getGameBoard().copyGameBoard();
-            boardcopy.placeTypeOf(getPlayerType(), space[0], space[1]);
+            boardcopy.placeType(getType(), space[0], space[1]);
 
-            double winpercent = calcWinPercent(boardcopy, getOppositeType(getPlayerType()), 1000);
+            double winpercent = calcWinPercent(boardcopy, getOppositeType(getType()), 1000);
 
             if(winpercent > bestwins)   {
 
@@ -42,43 +42,33 @@ public class MonteCarloAiPlayer extends AiPlayer    {
         return bestspace;
     }
 
-    private double calcWinPercent(TicTacToeBoard board, char typetostart, int numberOfGames)   {
-
+    private double calcWinPercent(TicTacToeBoard board, Type typeToStart, int numberOfGames) {
         int wins = 0;
-
-        for(int i=0; i<numberOfGames; i++)  {
-
-            if(playRandomGame(board, typetostart))  {
-
+        for (int i = 0; i < numberOfGames; i++)  {
+            if (playRandomGame(board, typeToStart)) {
                 wins++;
             }
         }
         return (wins*1.0)/numberOfGames;
     }
 
-    private boolean playRandomGame(TicTacToeBoard board, char typetostart)   {
+    private boolean playRandomGame(TicTacToeBoard board, Type typeToStart) {
+        Type typeSecond = getOppositeType(typeToStart);
+        RandomAiPlayer firstAI = new RandomAiPlayer(typeToStart, board);
+        RandomAiPlayer secondAI = new RandomAiPlayer(typeSecond, board);
 
-        char typesecond = getOppositeType(typetostart);
-        RandomAiPlayer aifirst = new RandomAiPlayer(typetostart, board);
-        RandomAiPlayer aisecond = new RandomAiPlayer(typesecond, board);
-
-        while(!board.isGameOver())  {
-
-            aifirst.makeMove();
-
-            if(!board.isGameOver()) {
-
-                aisecond.makeMove();
+        while (!board.isGameOver()) {
+            firstAI.makeMove();
+            if (!board.isGameOver()) {
+                secondAI.makeMove();
             }
         }
 
-        return board.getWinningType() == getPlayerType();
+        return board.getWinningType() == getType();
     }
 
-    private char getOppositeType(char type) {
-
-        assert (type==TicTacToeBoard.X) || (type==TicTacToeBoard.O);
-
-        return type==TicTacToeBoard.X ? TicTacToeBoard.O : TicTacToeBoard.X;
+    private Type getOppositeType(Type type) {
+        assert type == Type.X || type == Type.O;    // TODO Perhaps a little late for this? Consider moving to constructor
+        return type == Type.X ? Type.O : Type.X;
     }
 }

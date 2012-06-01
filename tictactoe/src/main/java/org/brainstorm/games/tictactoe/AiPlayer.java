@@ -8,7 +8,7 @@ package org.brainstorm.games.tictactoe;
  */
 public abstract class AiPlayer extends Player {
 
-    public AiPlayer(char type, TicTacToeBoard board) {
+    public AiPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 

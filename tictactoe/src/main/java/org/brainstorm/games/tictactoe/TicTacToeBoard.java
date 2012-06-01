@@ -1,6 +1,7 @@
 package org.brainstorm.games.tictactoe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,57 +12,36 @@ import java.util.List;
  */
 public class TicTacToeBoard {
 
-    public static final char X = 'X';
-
-    public static final char O = 'O';
-
-    public static final char BLANK = ' ';
-
     private static final int SIZE = 3;
 
-    private char[][] grid = new char[SIZE][SIZE];
+    private final Type[][] grid = new Type[SIZE][SIZE];
 
     public TicTacToeBoard() {
-
-        for(int i=0; i<SIZE; i++)   {
-
-            for(int j=0; j<SIZE; j++)   {
-
-                grid[i][j] = ' ';
-            }
-        }
+        for (int i = 0; i < SIZE; ++i)
+            Arrays.fill(grid[i], Type.BLANK);
     }
 
-    public void placeX(int x, int y)    {
-
-        placeTypeOf(X, x, y);
-    }
-
-    public char getValueAt(int x, int y) {
-
+    public Type getTypeAt(int x, int y) {
         return grid[x][y];
     }
 
-    public void placeO(int x, int y) {
-
-        placeTypeOf(O, x, y);
-    }
-
-    public void placeTypeOf(char type, int x, int y)   {
-
+    public void placeType(Type type, int x, int y) {
         grid[x][y] = type;
     }
 
-    public List<int[]> listBlankSpaces()   {
+    public void placeX(int x, int y) {
+        grid[x][y] = Type.X;
+    }
 
+    public void placeO(int x, int y) {
+        grid[x][y] = Type.O;
+    }
+
+    public List<int[]> listBlankSpaces() {
         List<int[]> blankSpaces = new ArrayList<int[]>();
-
-        for(int i=0; i<SIZE; i++)   {
-
-            for(int j=0; j<SIZE; j++)   {
-
-                if(isSpaceBlank(i, j)) {
-
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (isSpaceBlank(i, j)) {
                     blankSpaces.add(new int[] {i, j});
                 }
             }
@@ -70,13 +50,15 @@ public class TicTacToeBoard {
     }
 
     public boolean isXWinning() {
-
-        return isDiagnalUpRightWinning(X) || isDiagnalDownRightWinning(X) || isHorizontalWinning(X) || isVerticalWinning(X);
+        return isTypeWinning(Type.X);
     }
 
     public boolean isOWinning() {
+        return isTypeWinning(Type.O);
+    }
 
-        return isDiagnalDownRightWinning(O) || isDiagnalUpRightWinning(O) || isHorizontalWinning(O) || isVerticalWinning(O);
+    public boolean isTypeWinning(Type type) {
+        return isDiagonalDownRightWinning(type) || isDiagonalUpRightWinning(type) || isHorizontalWinning(type) || isVerticalWinning(type);
     }
 
     /**
@@ -87,120 +69,87 @@ public class TicTacToeBoard {
         return isXWinning() || isOWinning() || (listBlankSpaces().size() == 0);
     }
 
-    public char getWinningType() {
-
-        if(!isGameOver())    {
-
-            return '?';
-        } else  {
-
-            if(isXWinning())    {
-
-                return TicTacToeBoard.X;
+    public Type getWinningType() {
+        if (!isGameOver())    {
+            return Type.UNKNOWN;
+        } else {
+            if (isXWinning())    {
+                return Type.X;
             } else if(isOWinning()) {
-
-                return TicTacToeBoard.O;
+                return Type.O;
             } else  {
-
-                return 'C'; //For cat game.
+                return Type.CAT;
             }
         }
     }
 
-    private boolean isHorizontalWinning(char player)    {
-
-        for(int y=0; y<SIZE; y++)   {
-
-            if(isRowWinning(player, y)) {
-
+    private boolean isHorizontalWinning(Type type) {
+        for (int y = 0; y < SIZE; y++) {
+            if (isRowWinning(type, y)) {
                 return true;
             }
         }
-
         return false;
     }
 
-    private boolean isVerticalWinning(char player)  {
-
-        for(int x=0; x<SIZE; x++)   {
-
-            if(isColWinning(player, x)) {
-
+    private boolean isVerticalWinning(Type type) {
+        for (int x = 0; x < SIZE; x++) {
+            if (isColumnWinning(type, x)) {
                 return true;
             }
         }
-
         return false;
     }
 
-    private boolean isColWinning(char player, int col)  {
-
-        for(int row=0; row<SIZE; row++) {
-
-            if(grid[col][row] != player)    {
-
+    private boolean isColumnWinning(Type type, int col) {
+        for (int row = 0; row < SIZE; ++row) {
+            if (grid[col][row] != type) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isRowWinning(char player, int row)  {
-
-        for(int col=0; col<SIZE; col++)   {
-
-            if(grid[col][row] != player)  {
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private boolean isDiagnalDownRightWinning(char player)    {
-
-        for(int i=0; i<SIZE; i++)   {
-
-            if(grid[i][i] != player) {
-
+    private boolean isRowWinning(Type type, int row) {
+        for (int col = 0; col < SIZE; ++col) {
+            if (grid[col][row] != type) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isDiagnalUpRightWinning(char player)    {
-
-        for(int i=0; i<SIZE; i++) {
-
-            if(grid[i][SIZE - i - 1] != player) {
-
+    private boolean isDiagonalDownRightWinning(Type type) {
+        for (int i = 0; i < SIZE; ++i) {
+            if (grid[i][i] != type) {
                 return false;
             }
         }
         return true;
     }
 
-    private boolean isSpaceBlank(int x, int y)  {
+    private boolean isDiagonalUpRightWinning(Type type) {
+        for (int i = 0; i < SIZE; ++i) {
+            if (grid[i][SIZE - i - 1] != type) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-        return grid[x][y] == BLANK;
+    private boolean isSpaceBlank(int x, int y) {
+        return grid[x][y] == Type.BLANK;
     }
 
     @Override
-    public String toString()    {
-
+    public String toString() {
         StringBuilder out = new StringBuilder();
-
-        for(int j=0; j<SIZE; j++)   {
-            for(int i=0; i<SIZE; i++)   {
-
-                if(i < SIZE-1)  {
-
+        for (int j = 0; j < SIZE; j++) {
+            for (int i=0; i<SIZE; i++) {
+                if (i < SIZE - 1) {
                     out.append(grid[i][j]);
                     out.append('|');
-                } else  {
-
+                } else {
                     out.append(grid[i][j]);
                     out.append('\n');
                 }
@@ -211,20 +160,17 @@ public class TicTacToeBoard {
         return state;
     }
 
-    public TicTacToeBoard copyGameBoard()   {
-
+    public TicTacToeBoard copyGameBoard() {
         TicTacToeBoard copiedboard = new TicTacToeBoard();
 
         for(int i=0; i<SIZE; i++)   {
             for(int j=0; j<SIZE; j++)   {
 
-                char thisboardtype = grid[i][j];
-                copiedboard.placeTypeOf(thisboardtype, i, j); //TODO how am I allowed to do this, if placeTypeOf() is private
+                Type thisboardtype = grid[i][j];
+                copiedboard.placeType(thisboardtype, i, j); //TODO how am I allowed to do this, if placeType() is private
             }
         }
 
         return copiedboard;
     }
-
-
 }

@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>org.brainstorm.games</groupId>
-    <artifactId>tictactoe</artifactId>
+    <artifactId>TicTacToe</artifactId>
     <packaging>jar</packaging>
 
     <name>Tic Tac Toe</name>
