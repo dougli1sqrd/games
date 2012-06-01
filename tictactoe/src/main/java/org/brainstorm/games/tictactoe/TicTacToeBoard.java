@@ -16,6 +16,8 @@ public class TicTacToeBoard {
 
     private final Type[][] grid = new Type[SIZE][SIZE];
 
+    private Type currentPlayerType;
+
     public TicTacToeBoard() {
         for (int i = 0; i < SIZE; ++i)
             Arrays.fill(grid[i], Type.BLANK);
@@ -58,7 +60,8 @@ public class TicTacToeBoard {
     }
 
     public boolean isTypeWinning(Type type) {
-        return isDiagonalDownRightWinning(type) || isDiagonalUpRightWinning(type) || isHorizontalWinning(type) || isVerticalWinning(type);
+        return isDiagonalDownRightWinning(type) || isDiagonalUpRightWinning(type) ||
+                isHorizontalWinning(type) || isVerticalWinning(type);
     }
 
     /**
@@ -81,6 +84,14 @@ public class TicTacToeBoard {
                 return Type.CAT;
             }
         }
+    }
+
+    public Type getCurrentPlayerType() {
+        return currentPlayerType;
+    }
+
+    public void setCurrentPlayerType(Type currentPlayerType) {
+        this.currentPlayerType = currentPlayerType;
     }
 
     private boolean isHorizontalWinning(Type type) {

@@ -1,7 +1,7 @@
 package org.brainstorm.games.tictactoe;
 
 
-import org.brainstorm.games.tictactoe.ui.SystemOutView;
+import org.brainstorm.games.tictactoe.ui.SwingView;
 import org.brainstorm.games.tictactoe.ui.TicTacToeView;
 
 /**
@@ -28,17 +28,15 @@ public class TicTacToeGame {
     public TicTacToeGame() {
         board = new TicTacToeBoard();
         playerX = new MonteCarloAiPlayer(Type.X, board);  //TODO use Factory pattern here.  But how...?
-        playerO = new MonteCarloAiPlayer(Type.O, board);
-        view = new SystemOutView();
+        playerO = new HumanPlayer(Type.O, board);
+        view = new SwingView(board);
     }
 
     public void play() {
         while (!board.isGameOver()) {
-            view.showBoard(board);
-            playerX.makeMove();
+            takeTurn(playerX);
             if (!board.isGameOver()) {
-                view.showBoard(board);
-                playerO.makeMove();
+                takeTurn(playerO);
             }
         }
 
@@ -50,5 +48,11 @@ public class TicTacToeGame {
         } else {
             view.showMessage("Cat game!");
         }
+    }
+
+    private void takeTurn(Player player) {
+        board.setCurrentPlayerType(player.getType());
+        view.showBoard(board);
+        player.makeMove();
     }
 }
