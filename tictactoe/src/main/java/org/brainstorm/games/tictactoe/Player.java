@@ -8,12 +8,12 @@ package org.brainstorm.games.tictactoe;
  */
 public abstract class Player {
 
-    // TODO: Don't use typed classes, use polymorphism instead!
     private final Type type;
 
     private final TicTacToeBoard board;
 
     public Player(Type type, TicTacToeBoard board) {
+        assert Type.X == type || Type.O == type;
         this.type = type;
         this.board = board;
     }
@@ -30,10 +30,8 @@ public abstract class Player {
         //TODO where do we enforce legal move placement?  If we enforce here, then if an illegal move is made
         //it will fail silently, doing nothing.  It could also be placed in a loop, that does not exit until
         //a legal move is made.  (A legal move is one in which there are no other placements (a blank space))
-        int[] tile = getMove(); // TODO Can we move this inside the if block?
-        if (Type.X == type || Type.O == type) {
-            board.placeType(type, tile[0], tile[1]);
-        }
+        int[] tile = getMove();
+        board.placeType(type, tile[0], tile[1]);
     }
 
     /**
