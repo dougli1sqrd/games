@@ -6,12 +6,9 @@ package org.brainstorm.games.tictactoe;
  * Date: 5/26/12
  * Time: 2:04 AM
  */
-public abstract class AiPlayer extends Player {
+public abstract class AIPlayer extends AbstractPlayer {
 
-    public AiPlayer(Type type, TicTacToeBoard board) {
+    public AIPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
-
-    @Override
-    protected abstract int[] getMove();
 }

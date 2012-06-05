@@ -1,7 +1,6 @@
 package org.brainstorm.games.tictactoe;
 
 
-import org.brainstorm.games.tictactoe.ui.SwingView;
 import org.brainstorm.games.tictactoe.ui.TicTacToeView;
 
 /**
@@ -12,11 +11,6 @@ import org.brainstorm.games.tictactoe.ui.TicTacToeView;
  */
 public class TicTacToeGame {
 
-    public static void main(String[] args) {
-        TicTacToeGame game = new TicTacToeGame();
-        game.play();
-    }
-
     private final TicTacToeBoard board;
 
     private final TicTacToeView view;
@@ -25,22 +19,25 @@ public class TicTacToeGame {
 
     private final Player playerO;
 
-    public TicTacToeGame() {
-        board = new TicTacToeBoard();
-        playerX = new MonteCarloAiPlayer(Type.X, board);  //TODO use Factory pattern here.  But how...?
-        playerO = new HumanPlayer(Type.O, board);
-        view = new SwingView(board);
+    public TicTacToeGame(TicTacToeBoard board, TicTacToeView view, Player playerX, Player playerO) {
+        this.board = board;
+        this.view = view;
+        this.playerX = playerX;
+        this.playerO = playerO;
     }
 
     public void play() {
+        view.showBoard(board);
         while (!board.isGameOver()) {
-            takeTurn(playerX);
+            playerX.makeMove();
+            view.showBoard(board);
             if (!board.isGameOver()) {
-                takeTurn(playerO);
+                playerO.makeMove();
+                view.showBoard(board);
             }
         }
-
         view.showBoard(board);
+
         if (board.isXWinning()) {
             view.showMessage("X won!");
         } else if (board.isOWinning()) {
@@ -48,11 +45,5 @@ public class TicTacToeGame {
         } else {
             view.showMessage("Cat game!");
         }
-    }
-
-    private void takeTurn(Player player) {
-        board.setCurrentPlayerType(player.getType());
-        view.showBoard(board);
-        player.makeMove();
     }
 }

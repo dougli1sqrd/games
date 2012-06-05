@@ -11,14 +11,14 @@ import java.util.List;
  * Date: 5/26/12
  * Time: 12:38 AM
  */
-public class HumanPlayer extends Player {
+public class HumanPlayer extends AbstractPlayer {
 
     public HumanPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 
     @Override
-    protected int[] getMove() {
+    public void makeMove() {
 
         int[] move;
 
@@ -30,12 +30,12 @@ public class HumanPlayer extends Player {
             move[1] = Integer.valueOf(userResponse[1]) - 1;
         } while (!validateUserChoice(move));
 
-        return move;
+        getBoard().placeType(getType(), move[0], move[1]);
     }
 
     private boolean validateUserChoice(int[] moveChoice)    {
 
-        List<int[]> emptySpaces = getGameBoard().listBlankSpaces();
+        List<int[]> emptySpaces = getBoard().listBlankSpaces();
         for(int[] space : emptySpaces)  {
 
             if((moveChoice[0] == space[0]) && (moveChoice[1] == space[1]))   {

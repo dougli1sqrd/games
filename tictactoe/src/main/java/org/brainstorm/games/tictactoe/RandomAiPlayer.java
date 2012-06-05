@@ -8,19 +8,19 @@ import java.util.List;
  * Date: 5/26/12
  * Time: 2:20 AM
  */
-public class RandomAiPlayer extends AiPlayer {
+public class RandomAIPlayer extends AIPlayer {
 
-    public RandomAiPlayer(Type type, TicTacToeBoard board) {
+    public RandomAIPlayer(Type type, TicTacToeBoard board) {
         super(type, board);
     }
 
     @Override
-    protected int[] getMove() {
+    public void makeMove() {
+        List<int[]> emptySpaces = getBoard().listBlankSpaces();
+        int randomIndex = (int)(Math.random()*emptySpaces.size());
 
-        List<int[]> emptyspaces = getGameBoard().listBlankSpaces();
-        int randomIndex = (int)(Math.random()*emptyspaces.size());
-
-        return emptyspaces.get(randomIndex);
+        int[] move = emptySpaces.get(randomIndex);
+        getBoard().placeType(getType(), move[0], move[1]);
     }
 
 }

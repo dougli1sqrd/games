@@ -16,7 +16,7 @@ public class TicTacToeGameTest {
     @Before
     public void setup() {
 
-        game = new TicTacToeGame();
+        game = new TicTacToeGame(null, null, null, null);
     }
 
 

@@ -12,11 +12,19 @@ import java.util.List;
  */
 public class TicTacToeBoard {
 
+    public static final class Position {
+        public final int row;
+        public final int column;
+
+        public Position(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+    }
+
     private static final int SIZE = 3;
 
     private final Type[][] grid = new Type[SIZE][SIZE];
-
-    private Type currentPlayerType;
 
     public TicTacToeBoard() {
         for (int i = 0; i < SIZE; ++i)
@@ -84,14 +92,6 @@ public class TicTacToeBoard {
                 return Type.CAT;
             }
         }
-    }
-
-    public Type getCurrentPlayerType() {
-        return currentPlayerType;
-    }
-
-    public void setCurrentPlayerType(Type currentPlayerType) {
-        this.currentPlayerType = currentPlayerType;
     }
 
     private boolean isHorizontalWinning(Type type) {
@@ -172,16 +172,13 @@ public class TicTacToeBoard {
     }
 
     public TicTacToeBoard copyGameBoard() {
-        TicTacToeBoard copiedboard = new TicTacToeBoard();
-
-        for(int i=0; i<SIZE; i++)   {
-            for(int j=0; j<SIZE; j++)   {
-
-                Type thisboardtype = grid[i][j];
-                copiedboard.placeType(thisboardtype, i, j); //TODO how am I allowed to do this, if placeType() is private
+        TicTacToeBoard copiedBoard = new TicTacToeBoard();
+        for (int i = 0; i < SIZE; i++)   {
+            for (int j = 0; j < SIZE; j++)   {
+                Type thisBoardType = grid[i][j];
+                copiedBoard.placeType(thisBoardType, i, j); //TODO how am I allowed to do this, if placeType() is private
             }
         }
-
-        return copiedboard;
+        return copiedBoard;
     }
 }
