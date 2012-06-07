@@ -8,7 +8,7 @@ import javax.swing.*;
 public enum Type {
 
     X {
-        private final ImageIcon theXImage = new ImageIcon(Type.class.getResource("/images/X.png"));
+        private final ImageIcon theXImage = new ImageIcon(Type.class.getResource("/images/xx.png"));
 
         @Override
         public Icon getImage() {
@@ -17,7 +17,7 @@ public enum Type {
     },
 
     O {
-        private final ImageIcon theYImage = new ImageIcon(Type.class.getResource("/images/O.png"));
+        private final ImageIcon theYImage = new ImageIcon(Type.class.getResource("/images/oo.png"));
 
         @Override
         public Icon getImage() {

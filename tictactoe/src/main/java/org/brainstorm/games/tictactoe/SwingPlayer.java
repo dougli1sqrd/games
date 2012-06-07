@@ -1,8 +1,6 @@
-package org.brainstorm.games.tictactoe.ui;
+package org.brainstorm.games.tictactoe;
 
-import org.brainstorm.games.tictactoe.AbstractPlayer;
-import org.brainstorm.games.tictactoe.TicTacToeBoard;
-import org.brainstorm.games.tictactoe.Type;
+import org.brainstorm.games.tictactoe.ui.SwingView;
 
 /**
  * Date: 6/3/12
@@ -21,8 +19,7 @@ public class SwingPlayer extends AbstractPlayer {
 
     @Override
     public void makeMove() {
-        TicTacToeBoard.Position move = view.getUserMove();
-        assert move != null;
+        BoardPosition move = view.getUserMove();
         getBoard().placeType(getType(), move.column, move.row);
     }
 }

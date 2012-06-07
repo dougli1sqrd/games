@@ -1,10 +1,13 @@
 package org.brainstorm.games.tictactoe.ui;
 
+import org.brainstorm.games.tictactoe.BoardPosition;
 import org.brainstorm.games.tictactoe.TicTacToeBoard;
 import org.brainstorm.games.tictactoe.Type;
 
 import javax.swing.*;
-import java.awt.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -16,6 +19,15 @@ import java.awt.event.ActionListener;
  */
 public class SwingView implements TicTacToeView {
 
+    static {
+        try {
+            // Ensure we're using the look and feel that gives us the best looking grid buttons
+            UIManager.setLookAndFeel(new MetalLookAndFeel());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static final String ROW = "SwingView#ROW";
 
     private static final String COLUMN = "SwingView#COLUMN";
@@ -26,6 +38,8 @@ public class SwingView implements TicTacToeView {
 
     private final JButton[][] boardButtons;
 
+    private volatile BoardPosition userMove;
+
     private final ActionListener clickListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
@@ -35,16 +49,15 @@ public class SwingView implements TicTacToeView {
                 if (spaceIsBlank) {
                     int row = (Integer) button.getClientProperty(ROW);
                     int column = (Integer) button.getClientProperty(COLUMN);
-                    userMove = new TicTacToeBoard.Position(row, column);
+                    userMove = new BoardPosition(row, column);
                 }
             }
         }
     };
 
-    private volatile TicTacToeBoard.Position userMove;
-
     public SwingView() {
         boardComponent = new JPanel(new GridLayout(3, 3));
+        boardComponent.setOpaque(true);
         boardButtons = new JButton[3][3];
         buildGridBoard();
         window = new JFrame("Tic Tac Toe");
@@ -52,32 +65,6 @@ public class SwingView implements TicTacToeView {
         window.setLocationByPlatform(true);
         window.setContentPane(boardComponent);
         window.pack();
-    }
-
-    private void buildGridBoard() {
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                JButton button = new JButton(Type.BLANK.getImage());
-                button.setContentAreaFilled(false);
-                button.setFocusPainted(false);
-                button.setMargin(new Insets(0,0,0,0));
-                button.putClientProperty(ROW, Integer.valueOf(y));
-                button.putClientProperty(COLUMN, Integer.valueOf(x));
-                button.addActionListener(clickListener);
-                boardComponent.add(button);
-                boardButtons[x][y] = button;
-            }
-        }
-    }
-
-    TicTacToeBoard.Position getUserMove() {
-        while (userMove == null) {
-            // Wait for user to click on something. This variable will be
-            // set from the Event Dispatch Thread by our clickListener
-        }
-        TicTacToeBoard.Position move = userMove;
-        userMove = null;
-        return move;
     }
 
     @Override
@@ -93,7 +80,39 @@ public class SwingView implements TicTacToeView {
     }
 
     @Override
-    public void showMessage(String message) {
-        JOptionPane.showMessageDialog(window, message, message, JOptionPane.INFORMATION_MESSAGE);
+    public void showGameOverMessage(Type winner, String message) {
+        JOptionPane.showMessageDialog(window, message, message, JOptionPane.INFORMATION_MESSAGE, winner.getImage());
+    }
+
+    public BoardPosition getUserMove() {
+        while (userMove == null) {
+            // Wait for user to click on something. This variable will be
+            // set from the Event Dispatch Thread by our clickListener
+        }
+        BoardPosition move = userMove;
+        userMove = null;
+        return move;
+    }
+
+    private void buildGridBoard() {
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                JButton button = createGridButton(x, y);
+                boardComponent.add(button);
+                boardButtons[x][y] = button;
+            }
+        }
+    }
+
+    private JButton createGridButton(int x, int y) {
+        JButton button = new JButton(Type.BLANK.getImage());
+        button.setOpaque(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setMargin(new Insets(0,0,0,0));
+        button.putClientProperty(ROW, y);
+        button.putClientProperty(COLUMN, x);
+        button.addActionListener(clickListener);
+        return button;
     }
 }

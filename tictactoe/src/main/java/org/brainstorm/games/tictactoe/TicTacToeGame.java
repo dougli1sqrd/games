@@ -39,11 +39,15 @@ public class TicTacToeGame {
         view.showBoard(board);
 
         if (board.isXWinning()) {
-            view.showMessage("X won!");
+            view.showGameOverMessage(Type.X, "X won!");
         } else if (board.isOWinning()) {
-            view.showMessage("O won!");
+            view.showGameOverMessage(Type.O, "O won!");
         } else {
-            view.showMessage("Cat game!");
+            view.showGameOverMessage(Type.CAT, "Cat game");
         }
+    }
+
+    public void reset() {
+        board.reset();
     }
 }

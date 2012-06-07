@@ -1,6 +1,7 @@
 package org.brainstorm.games.tictactoe.ui;
 
 import org.brainstorm.games.tictactoe.TicTacToeBoard;
+import org.brainstorm.games.tictactoe.Type;
 
 /**
  * Date: 6/1/12
@@ -12,5 +13,5 @@ public interface TicTacToeView {
 
     void showBoard(TicTacToeBoard board);
 
-    void showMessage(String message);
+    void showGameOverMessage(Type winner, String message);
 }

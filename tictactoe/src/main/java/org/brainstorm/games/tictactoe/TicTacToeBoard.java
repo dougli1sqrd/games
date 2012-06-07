@@ -12,23 +12,12 @@ import java.util.List;
  */
 public class TicTacToeBoard {
 
-    public static final class Position {
-        public final int row;
-        public final int column;
-
-        public Position(int row, int column) {
-            this.row = row;
-            this.column = column;
-        }
-    }
-
     private static final int SIZE = 3;
 
-    private final Type[][] grid = new Type[SIZE][SIZE];
+    private Type[][] grid;
 
     public TicTacToeBoard() {
-        for (int i = 0; i < SIZE; ++i)
-            Arrays.fill(grid[i], Type.BLANK);
+        reset();
     }
 
     public Type getTypeAt(int x, int y) {
@@ -92,6 +81,12 @@ public class TicTacToeBoard {
                 return Type.CAT;
             }
         }
+    }
+
+    public void reset() {
+        grid = new Type[SIZE][SIZE];
+        for (int i = 0; i < SIZE; ++i)
+            Arrays.fill(grid[i], Type.BLANK);
     }
 
     private boolean isHorizontalWinning(Type type) {

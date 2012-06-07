@@ -1,6 +1,7 @@
 package org.brainstorm.games.tictactoe.ui;
 
 import org.brainstorm.games.tictactoe.TicTacToeBoard;
+import org.brainstorm.games.tictactoe.Type;
 
 /**
  * Date: 6/1/12
@@ -15,7 +16,7 @@ public class SystemOutView implements TicTacToeView {
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showGameOverMessage(Type winner, String message) {
         System.out.println(message);
     }
 }
