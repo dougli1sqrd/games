@@ -47,7 +47,7 @@ public class MonteCarloAIPlayer extends AIPlayer {
 
             double winPercent = calcWinPercent(boardCopy, getOppositeType(getType()), 1000);
 
-            if(winPercent > bestWins)   {
+            if(winPercent >= bestWins)   {
 
                 bestWins = winPercent;
                 bestSpace = space;
