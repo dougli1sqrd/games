@@ -34,7 +34,7 @@ public class MonteCarloAIPlayer extends AIPlayer {
             TicTacToeBoard boardCopy = getBoard().copyGameBoard();
             boardCopy.placeType(getType(), space[0], space[1]);
 
-            double winPercent = calcWinPercent(boardCopy, getOppositeType(getType()), 1000);
+            double winPercent = calcWinPercent(boardCopy, getOppositeType(getType()), 5000);
 
             if(winPercent >= bestWins)   {
 
@@ -57,18 +57,19 @@ public class MonteCarloAIPlayer extends AIPlayer {
     }
 
     private boolean playRandomGame(TicTacToeBoard board, Type typeToStart) {
+        TicTacToeBoard boardcopy = board.copyGameBoard();
         Type typeSecond = getOppositeType(typeToStart);
-        RandomAIPlayer firstAI = new RandomAIPlayer(typeToStart, board);
-        RandomAIPlayer secondAI = new RandomAIPlayer(typeSecond, board);
+        RandomAIPlayer firstAI = new RandomAIPlayer(typeToStart, boardcopy);
+        RandomAIPlayer secondAI = new RandomAIPlayer(typeSecond, boardcopy);
 
-        while (!board.isGameOver()) {
+        while (!boardcopy.isGameOver()) {
             firstAI.makeMove();
-            if (!board.isGameOver()) {
+            if (!boardcopy.isGameOver()) {
                 secondAI.makeMove();
             }
         }
 
-        return board.getWinningType() == getType();
+        return boardcopy.getWinningType() == getType();
     }
 
     private Type getOppositeType(Type type) {
